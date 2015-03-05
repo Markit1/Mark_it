@@ -1,9 +1,6 @@
 
 function ensureSendMessage(tabId, message, callback){
   chrome.tabs.sendMessage(tabId, {ping: true}, function(response){
-    if(response.pong) { // Content script ready
-      alert("PONG");
-    }
   });
 }
 
