@@ -2,8 +2,8 @@
 var integer = 0;
 
 function addDiv(tag) {	
-	var title, integer, comment, textQuantity;
-	
+	var title, comment, textQuantity;
+
 	console.log(tag);      
 	title = "comentario" + integer;
 	
@@ -22,7 +22,7 @@ function addDiv(tag) {
 	  $(function() {
 	    $( "#" + idComment + "").draggable();
 	  });
-
+ 
 	} else {
 	  alert("No se pueden usar tantas palabras");
 	}
