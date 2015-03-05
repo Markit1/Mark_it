@@ -1,20 +1,33 @@
 {
   "manifest_version": 2,
 	"name": "Mark_it!",
-    "version": "1.0",
-    "description": "Menu contextual al seleccionar",
-    "browser_action": {
-        "default_icon": "images/editable.png",
-        "default_popup":"popup.html",
-        "default_title": "Mark it!"
-    },
-    "permissions": [
-    "contextMenus"
+  "version": "1.0",
+  "description": "Menu contextual al seleccionar",
+  
+  "browser_action": {
+      "default_icon": "images/editable.png",
+      "default_popup":"popup.html",
+      "default_title": "Mark it!"
+  },
+
+  "permissions": [
+    "contextMenus",
+    "tabs",
+    "activeTab"
 	],
+
   "icons": {
         "16": "images/editable.png"
   },
+
   "background": {
-    "scripts": ["Scripts/main.js"]
-  }
+    "scripts": ["scripts/background.js"],
+    "persistent":false
+  },
+
+  "content_scripts": [ {
+    "matches": [ "http://jquery.com/*", "https://*/*", "http://*/*"],
+    "js": [ "scripts/jquery.min.js","scripts/getSelect.js"],
+    "css": ["css/popup.css"]
+  }]
 }

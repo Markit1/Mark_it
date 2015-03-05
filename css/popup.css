@@ -2,3 +2,15 @@ img
 {
 	height: 500px;
 }
+
+.markit-div
+{
+	background: #FFC107;
+	opacity: .80;
+	position: absolute;
+	margin: 5px;
+	padding: 10px;
+	display: inline-block;
+	font-size: 15px;
+	font-color: black;
+}
