@@ -23,5 +23,5 @@ chrome.runtime.onInstalled.addListener(function() {
                                           "contexts":contexts,
                                           "id": "context" + 1
                                         });
-  console.log("'" + title + "' item:" + id);
+  console.log("'" + title + "' item:" + idContext);
 });
