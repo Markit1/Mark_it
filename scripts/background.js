@@ -1,3 +1,19 @@
+chrome.runtime.onInstalled.addListener(function() {
+  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+    chrome.declarativeContent.onPageChanged.addRules([{
+      conditions: [
+
+        new chrome.declarativeContent.PageStateMatcher({
+            css: [".markit-div"]
+          })
+      ],
+
+      actions: [new chrome.declarativeContent.ShowPageAction() ]
+    }]);
+  });
+});
+
+
 
 function ensureSendMessage(tabId, message, callback){
   chrome.tabs.sendMessage(tabId, {ping: true}, function(response){
@@ -23,5 +39,5 @@ chrome.runtime.onInstalled.addListener(function() {
                                           "contexts":contexts,
                                           "id": "context" + 1
                                         });
-  console.log("'" + title + "' item:" + id);
+  console.log("'" + title + "' item:" + idContext);
 });
