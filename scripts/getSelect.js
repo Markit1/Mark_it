@@ -1,28 +1,42 @@
 
 var integer = 0;
 
-function addDiv(tag) {	
+function addDiv(tag) {
 	var title, comment, textQuantity;
 
-	console.log(tag);      
+	console.log(tag);
 	title = "comentario" + integer;
-	
+
 	console.log(title);
 	integer++;
-	
+
 	idComment = title.replace(/\s+/g, '');
 	idComment = idComment.toLowerCase();
 
 	comment = prompt("Agrega un comentario");
 	$(tag).append("<div id=" + idComment + " class=" + "markit-div" + "></div>")
-	
+
 	textQuantity = comment.length;
 	if (textQuantity <= 140) {
+
 	  $("#" + idComment + "").text(comment);
 	  $(function() {
 	    $( "#" + idComment + "").draggable();
 	  });
- 
+
+		function save_codepage() {
+      var htmlcode = document.getElementsByTagName('html')[0].innerHTML;
+
+      //alert(htmlcode);
+			localStorage.htmlcode = htmlcode;
+
+			var vhtmlcode = localStorage.htmlcode;
+      alert(vhtmlcode);
+			//console.log(localStorage["htmlcode"]);
+    }
+
+		save_codepage();
+
 	} else {
 	  alert("No se pueden usar tantas palabras");
 	}
@@ -49,4 +63,3 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   	sendResponse({pong: true});
   }
 });
-
