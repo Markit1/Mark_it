@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
 	<link rel="stylesheet" href="css/popup.css">
 	<meta charset="UTF-8">
@@ -10,4 +8,3 @@
 	<script> alert("holaaa");</script>
 	<script> alert(document.getElementsByTagName('html')[0].innerHTML);</script>
 </body>
-</html>

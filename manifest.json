@@ -3,21 +3,22 @@
 	"name": "Mark_it!",
   "version": "1.0",
   "description": "Menu contextual al seleccionar",
-  
-  "browser_action": {
-      "default_icon": "images/editable.png",
-      "default_popup":"popup.html",
-      "default_title": "Mark it!"
-  },
 
+  "page_action" :
+  {
+    "default_icon" : "images/markit.png",
+    "default_title" : "There's a <mark_it> in this page!",
+    "default_popup": "popup.html"
+  },
   "permissions": [
     "contextMenus",
     "tabs",
-    "activeTab"
+    "activeTab",
+    "declarativeContent"
 	],
-
-  "icons": {
-        "16": "images/editable.png"
+  "icons" : {
+    "48" : "images/markit.png",
+    "128" : "images/markit.png"
   },
 
   "background": {
