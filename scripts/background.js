@@ -1,7 +1,5 @@
 //se muestra page Action cuando agregar un comentario
 var vhtml = "html";
-=======
-
 var contexts = ["page","selection","link","editable","image","video",
                   "audio"];
 
@@ -26,8 +24,6 @@ chrome.runtime.onInstalled.addListener(function() {
 chrome.pageAction.onClicked.addListener(function(tab){
   alert(vhtml);
 });
-
-
 
 
 function ensureSendMessage(tabId, message, callback){
