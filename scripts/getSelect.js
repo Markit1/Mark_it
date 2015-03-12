@@ -1,5 +1,12 @@
 
 var integer = 0;
+var htmlcode = "sin html";
+
+
+function save_codepage() {
+      htmlcode = document.getElementsByTagName('html')[0].innerHTML;
+			localStorage.htmlcode = "<!DOCTYPE html>" + htmlcode + "</html>";
+}
 
 function addDiv(tag) {
 	var title, comment, textQuantity;
@@ -24,18 +31,12 @@ function addDiv(tag) {
 	    $( "#" + idComment + "").draggable();
 	  });
 
-		function save_codepage() {
-      var htmlcode = document.getElementsByTagName('html')[0].innerHTML;
 
-      //alert(htmlcode);
-			localStorage.htmlcode = htmlcode;
 
-			var vhtmlcode = localStorage.htmlcode;
-      alert(vhtmlcode);
-			//console.log(localStorage["htmlcode"]);
-    }
+		//chrome.runtime.sendMessage({htmlcode: "htmlcodeeeee"}, function(response) {
+		//	alert("enviando");
+		//});
 
-		save_codepage();
 
 	} else {
 	  alert("No se pueden usar tantas palabras");
@@ -60,6 +61,8 @@ function getTag() {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.ping) {
   	getTag();
-  	sendResponse({pong: true});
+
+		save_codepage();
+  	sendResponse({htmlcode: localStorage.htmlcode});
   }
 });

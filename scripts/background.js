@@ -1,4 +1,5 @@
-
+//se muestra page Action cuando agregar un comentario
+var vhtml = "html";
 
 chrome.runtime.onInstalled.addListener(function() {
   chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
@@ -15,9 +16,15 @@ chrome.runtime.onInstalled.addListener(function() {
   });
 });
 
+//click en pageAction
+chrome.pageAction.onClicked.addListener(function(tab){
+  alert(vhtml);
+});
+
 
 function ensureSendMessage(tabId, message, callback){
   chrome.tabs.sendMessage(tabId, {ping: true}, function(response){
+  vhtml= response.htmlcode;
   });
 }
 
@@ -26,6 +33,8 @@ function genericOnClick(info, tab) {
     ensureSendMessage(tabs[0].id, {greeting: "hello"});
   });
 };
+
+
 
 chrome.contextMenus.onClicked.addListener(genericOnClick);
 
