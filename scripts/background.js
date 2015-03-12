@@ -1,37 +1,9 @@
-//se muestra page Action cuando agregar un comentario
+
 var vhtml = "html";
 var contexts = ["page","selection","link","editable","image","video",
                   "audio"];
 
-
-/*
-//chrome.pageAction.show(tabId: tab.id);
-
-chrome.runtime.onInstalled.addListener(function() {
-  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-    chrome.declarativeContent.onPageChanged.addRules([{
-      conditions: [
-
-        new chrome.declarativeContent.PageStateMatcher({
-            css: [".markit-div"]
-          })
-      ],
-
-      actions: [new chrome.pageAction.setIcon({tabId: tab.id, path: 'images/markit.png'}) ]
-      new chrome.declarativeContent.ShowPageAction()
-    }]);
-  });
-});
-
-
-
-
-//click en pageAction
-chrome.pageAction.onClicked.addListener(function(tab){
-  alert(vhtml);
-});
-*/
-
+//Agrega icono de mark_it en cualquier tab del navegador
 var lastTabId = 0;
 function active_markit_icon(tabId, changeInfo, tab) {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -40,29 +12,39 @@ function active_markit_icon(tabId, changeInfo, tab) {
   });
 };
 
-// Listen for any changes to the URL of any tab.
+//Agrega listener a tabs
 chrome.tabs.onUpdated.addListener(active_markit_icon);
 
+//Cambia icono cuando agregas un comentario mark_it
+function createSetIconAction(path, callback) {
+  var canvas = document.createElement("canvas");
+  var ctx = canvas.getContext("2d");
+  var image = new Image();
+  image.onload = function() {
+    ctx.drawImage(image,0,0,19,19);
+    var imageData = ctx.getImageData(0,0,19,19);
+    var action = new chrome.declarativeContent.SetIcon({imageData: imageData});
+    callback(action);
+  }
+  image.src = chrome.runtime.getURL(path);
+}
 
 
-chrome.runtime.onInstalled.addListener(function(tab) {
-  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-    chrome.declarativeContent.onPageChanged.addRules([{
-      conditions: [
-
-        new chrome.declarativeContent.PageStateMatcher({
-            css: [".markit-div"]
+chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
+  createSetIconAction("images/markit.png", function(setIconAction) {
+    chrome.declarativeContent.onPageChanged.addRules([
+      /* rule1, */
+      {
+        conditions : [
+          new chrome.declarativeContent.PageStateMatcher({
+              css: [".markit-div"]
           })
-      ],
-      //chrome.pageAction.setIcon({path: "icon" + (clicks + 1) + ".png",
-      //                       tabId: tab.id});
-
-      //actions: [new chrome.declarativeContent.ShowPageAction() ]
-      actions: [new chrome.pageAction.setIcon({path: "images/markit.png"})]
-    }]);
+        ],
+        actions    : [ setIconAction ]
+      }
+    ]);
   });
 });
-
 
 //click en pageAction
 chrome.pageAction.onClicked.addListener(function(tab){
@@ -86,6 +68,7 @@ function genericOnClick(info, tab) {
                                     "contexts" : contexts,
                                     "id" : "MarkIt"
                                   });
+
     }
     else {
       chrome.contextMenus.remove("MarkIt");
@@ -98,8 +81,6 @@ function genericOnClick(info, tab) {
     });
   }
 };
-
-
 
 chrome.contextMenus.onClicked.addListener(genericOnClick);
 
