@@ -6,7 +6,7 @@
 
   "page_action" :
   {
-    "default_icon" : "images/markit.png",
+    "default_icon" : "images/amarkit.png",
     "default_title" : "There's a <mark_it> in this page!"
   },
   "permissions": [

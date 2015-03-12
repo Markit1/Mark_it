@@ -1,4 +1,4 @@
-alert("Hola");
+
 var integer = 0;
 var htmlcode = "sin html";
 
@@ -21,7 +21,7 @@ function addDiv(tag) {
 	idComment = idComment.toLowerCase();
 
 	comment = prompt("Agrega un comentario");
-	$(tag).append("<div id=" + idComment + " class=" + "markit-div" + "></div>")
+	$(tag).append( "<div id=" + idComment + " class=" + "markit-div" + "></div>")
 
 	textQuantity = comment.length;
 	if (textQuantity <= 140) {
@@ -30,9 +30,6 @@ function addDiv(tag) {
 	  $(function() {
 	    $( "#" + idComment + "").draggable();
 	  });
-
-
-
 		//chrome.runtime.sendMessage({htmlcode: "htmlcodeeeee"}, function(response) {
 		//	alert("enviando");
 		//});
@@ -61,7 +58,6 @@ function getTag() {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.ping) {
   	getTag();
-
 		save_codepage();
   	sendResponse({htmlcode: localStorage.htmlcode});
   }
