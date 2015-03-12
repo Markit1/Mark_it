@@ -1,5 +1,10 @@
 //se muestra page Action cuando agregar un comentario
 var vhtml = "html";
+=======
+
+var contexts = ["page","selection","link","editable","image","video",
+                  "audio"];
+
 
 chrome.runtime.onInstalled.addListener(function() {
   chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
@@ -16,10 +21,13 @@ chrome.runtime.onInstalled.addListener(function() {
   });
 });
 
+
 //click en pageAction
 chrome.pageAction.onClicked.addListener(function(tab){
   alert(vhtml);
 });
+
+
 
 
 function ensureSendMessage(tabId, message, callback){
@@ -28,10 +36,28 @@ function ensureSendMessage(tabId, message, callback){
   });
 }
 
+var show_markIt = false;
+
 function genericOnClick(info, tab) {
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    ensureSendMessage(tabs[0].id, {greeting: "hello"});
-  });
+  if (info.menuItemId == "enabled") {
+    if (!show_markIt) {
+      var title = "Agregar MarkIt";
+      chrome.contextMenus.create({
+                                    "title" : title,
+                                    "contexts" : contexts,
+                                    "id" : "MarkIt"
+                                  });
+    }
+    else {
+      chrome.contextMenus.remove("MarkIt");
+    }
+    show_markIt = show_markIt == false;
+  }
+  else if (info.menuItemId == "MarkIt") {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      ensureSendMessage(tabs[0].id, {greeting: "hello"});
+    });
+  }
 };
 
 
@@ -39,15 +65,11 @@ function genericOnClick(info, tab) {
 chrome.contextMenus.onClicked.addListener(genericOnClick);
 
 chrome.runtime.onInstalled.addListener(function() {
-  var contexts, title, idContext;
-
-  contexts = ["page","selection","link","editable","image","video",
-                  "audio"];
-  title = "Mark_it";
-  idContext = chrome.contextMenus.create({
-                                          "title": title,
-                                          "contexts":contexts,
-                                          "id": "context" + 1
-                                        });
-  console.log("'" + title + "' item:" + idContext);
+  var idContext;
+  chrome.contextMenus.create({
+                              "title": "Habilitado",
+                              "type": "checkbox",
+                              "contexts" : contexts,
+                              "id": "enabled",
+                            });
 });
