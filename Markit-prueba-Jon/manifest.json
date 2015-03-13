@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+	"name": "Mark_it!",
+  "version": "1.0",
+  "description": "Menu contextual al seleccionar",
+
+  "page_action" :
+  {
+    "default_icon" : "images/markit.png",
+    "default_title" : "There's a <mark_it> in this page!"
+  },
+  "permissions": [
+    "contextMenus",
+    "tabs",
+    "activeTab",
+    "declarativeContent"
+	],
+  "icons" : {
+    "48" : "images/markit.png",
+    "128" : "images/markit.png"
+  },
+
+  "background": {
+    "scripts": ["scripts/background.js"],
+    "persistent":false
+  },
+
+  "content_scripts": [ {
+    "matches": [ "http://jquery.com/*", "https://*/*", "http://*/*"],
+    "js": [ "scripts/jquery.min.js","scripts/getSelect.js"],
+    "css": ["css/popup.css"]
+  }]
+}
