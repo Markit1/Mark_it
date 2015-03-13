@@ -1,8 +1,8 @@
-
 var vhtml = "";
 var contexts = ["page", "selection", "link", "editable", "image", "video", "audio"];
+var show_markIt = false;
 
-//Agrega icono de mark_it en cualquier tab del navegador
+//Add mark_it icon in whatever page
 var lastTabId = 0;
 function active_markit_icon(tabId, changeInfo, tab) {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -11,10 +11,7 @@ function active_markit_icon(tabId, changeInfo, tab) {
   });
 };
 
-//Agrega listener a tabs
-chrome.tabs.onUpdated.addListener(active_markit_icon);
-
-//Cambia icono cuando agregas un comentario mark_it
+//Changes icon when you add a markIt comemnt
 function createSetIconAction(path, callback) {
   var canvas = document.createElement("canvas");
   var ctx = canvas.getContext("2d");
@@ -28,11 +25,13 @@ function createSetIconAction(path, callback) {
   image.src = chrome.runtime.getURL(path);
 }
 
+//Add listener to tabs
+chrome.tabs.onUpdated.addListener(active_markit_icon);
 
 chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
   createSetIconAction("images/markit.png", function(setIconAction) {
     chrome.declarativeContent.onPageChanged.addRules([
-      /* rule1, */
+      // rule1
       {
         conditions : [
           new chrome.declarativeContent.PageStateMatcher({
@@ -45,7 +44,7 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
   });
 });
 
-//click en pageAction
+//click in pageAction
 chrome.pageAction.onClicked.addListener(function(tab){
   alert(vhtml);
 });
@@ -61,7 +60,11 @@ function sendMarkItState(tabId, message, callback){
   });
 }
 
-var show_markIt = false;
+function sendMessage(message) {
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    sendMarkItState(tabs[0].id, message);
+  });
+}
 
 function genericOnClick(info, tab) {
   if (info.menuItemId == "enabled") {
@@ -76,19 +79,16 @@ function genericOnClick(info, tab) {
     else {
       chrome.contextMenus.remove("MarkIt");
     }
-    show_markIt = show_markIt == false;
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      sendMarkItState(tabs[0].id, {MarkIt_state: show_markIt});
-    });
+
+    this.show_markIt = this.show_markIt == false;
+    var message = {MarkIt_state: show_markIt}
+    sendMessage(message);
   }
   else if (info.menuItemId == "MarkIt") {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      ensureSendMessage(tabs[0].id, {greeting: "hello"});
-    });
+    var message = {greeting: "hello"}
+    sendMessage(message);
   }
 };
-
-chrome.contextMenus.onClicked.addListener(genericOnClick);
 
 chrome.runtime.onInstalled.addListener(function() {
   var idContext;
@@ -99,6 +99,8 @@ chrome.runtime.onInstalled.addListener(function() {
     "id": "enabled",
   });
 });
+
+chrome.contextMenus.onClicked.addListener(genericOnClick);
 
 chrome.runtime.onConnect.addListener(function (port) {
   console.assert(port.name == "MarkIt");
