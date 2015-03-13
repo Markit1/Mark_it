@@ -37,10 +37,10 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
       {
         conditions : [
           new chrome.declarativeContent.PageStateMatcher({
-              css: [".markit-div"]
+              css : [".markit-div"]
           })
         ],
-        actions    : [ setIconAction ]
+        actions : [ setIconAction ]
       }
     ]);
   });
@@ -64,10 +64,10 @@ function genericOnClick(info, tab) {
     if (!show_markIt) {
       var title = "Agregar MarkIt";
       chrome.contextMenus.create({
-                                    "title" : title,
-                                    "contexts" : contexts,
-                                    "id" : "MarkIt"
-                                  });
+        "title" : title,
+        "contexts" : contexts,
+        "id" : "MarkIt"
+      });
 
     }
     else {
@@ -87,9 +87,9 @@ chrome.contextMenus.onClicked.addListener(genericOnClick);
 chrome.runtime.onInstalled.addListener(function() {
   var idContext;
   chrome.contextMenus.create({
-                              "title": "Habilitado",
-                              "type": "checkbox",
-                              "contexts" : contexts,
-                              "id": "enabled",
-                            });
+    "title": "Habilitado",
+    "type": "checkbox",
+    "contexts" : contexts,
+    "id": "enabled",
+  });
 });
