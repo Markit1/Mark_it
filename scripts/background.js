@@ -69,6 +69,7 @@ function sendMessage(message) {
 function genericOnClick(info, tab) {
   if (info.menuItemId == "enabled") {
     if (!show_markIt) {
+
       var title = "Agregar MarkIt";
       chrome.contextMenus.create({
         "title" : title,
@@ -76,6 +77,7 @@ function genericOnClick(info, tab) {
         "id" : "MarkIt"
       });
     }
+
     else {
       chrome.contextMenus.remove("MarkIt");
     }
@@ -93,7 +95,7 @@ function genericOnClick(info, tab) {
 chrome.runtime.onInstalled.addListener(function() {
   var idContext;
   chrome.contextMenus.create({
-    "title": "Habilitado",
+    "title": "Habilitar",
     "type": "checkbox",
     "contexts" : contexts,
     "id": "enabled",

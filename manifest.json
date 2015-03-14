@@ -2,12 +2,13 @@
   "manifest_version": 2,
 	"name": "Mark_it!",
   "version": "1.0",
-  "description": "Menu contextual al seleccionar",
+  "description": "Mark_it the web!",
 
   "page_action" :
   {
     "default_icon" : "images/amarkit.png",
-    "default_title" : "There's a <mark_it> in this page!"
+    "default_title" : "There's a <mark_it> in this page!",
+    "default_popup": "popup.html"
   },
   "permissions": [
     "contextMenus",
