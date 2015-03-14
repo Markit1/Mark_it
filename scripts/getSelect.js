@@ -31,44 +31,31 @@ function making_coments_draggrable(id) {
 }
 
 function save_codepage() {
-	htmlcode_changed = document.getElementsByTagName('html')[0].innerHTML;
+	this.htmlcode_changed = document.getElementsByTagName('html')[0].innerHTML;
 	localStorage.markIt = JSON.stringify({
 		url: URL,
-		code_changed: htmlcode_changed,
-		code_original: htmlcode_original,
+		code_changed: this.htmlcode_changed,
+		code_original: this.htmlcode_original,
 		integer: integer
 	});
 }
 
-function addDiv(tag) {
-	var title, comment, textQuantity;
+$( "html" ).on( "click", function() {
+  if (is_markIt_activate) {
+	  save_codepage();
+	}
+});
 
-	console.log(tag);
+function addDiv(tag) {
+	var title;
+
 	title = "comentario" + integer;
 
-	console.log(title);
 	integer++;
-
-	idComment = title.replace(/\s+/g, '');
-	idComment = idComment.toLowerCase();
-
-	comment = prompt("Agrega un comentario");
-	$(tag).append( "<div id=" + idComment + " class=" + "markit-div" + "></div>")
-
-	textQuantity = comment.length;
-	if (textQuantity <= 140) {
-
-	  $("#" + idComment + "").text(comment);
-	  $(function() {
-	    $( "#" + idComment + "").draggable();
-	  });
-
-	} else {
-	  alert("No se pueden usar tantas palabras");
-	}
-
-	comment = undefined;
-	textQuantity = 0;
+	$(tag).append("<div contenteditable="+true+" id=" + title + " class=" + "markit-div" + "></div>");
+	document.getElementById(title).setAttribute('ContentEditable', 'true');
+	$("#" + title + "").draggable();
+	$("#" + title + "").focus();
 }
 
 function getTag() {
@@ -77,16 +64,13 @@ function getTag() {
     range = window.getSelection().getRangeAt(0);
     tag = range.endContainer.parentNode;
 	  addDiv(tag);
-
-	} else if (document.selection) {
-	    alert("No haz seleccionado un texto");
 	}
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.ping) {
   	getTag();
-		save_codepage();
+  	save_codepage();
   	sendResponse({htmlcode: JSON.parse(localStorage.markIt)});
   } else if (request.MarkIt_state != undefined) {
   	this.is_markIt_activate = request.MarkIt_state;
@@ -104,13 +88,10 @@ function makingChangesWithMarkIt() {
 				document.getElementsByTagName('html')[0].innerHTML = markIt_localStorage.code_changed;
 
 				for(var number_current = 0; number_current < integer; number_current += 1) {
-					var title_current, idComment_current;
+					var title_current;
 
 					title_current = "comentario" + number_current;
-					idComment_current = title_current.replace(/\s+/g, '');
-					idComment_current = idComment_current.toLowerCase();
-
-					making_coments_draggrable(idComment_current);
+					making_coments_draggrable(title_current);
 				}
 			} else {
 				document.getElementsByTagName('html')[0].innerHTML = markIt_localStorage.code_original;

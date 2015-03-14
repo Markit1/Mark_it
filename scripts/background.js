@@ -51,7 +51,7 @@ chrome.pageAction.onClicked.addListener(function(tab){
 
 function ensureSendMessage(tabId, message, callback){
   chrome.tabs.sendMessage(tabId, {ping: true}, function (response) {
-    vhtml= response.code_changed;
+    vhtml= response.htmlcode.code_changed;
   });
 }
 
@@ -81,11 +81,11 @@ function genericOnClick(info, tab) {
     }
 
     this.show_markIt = this.show_markIt == false;
-    var message = {MarkIt_state: show_markIt}
+    var message = {MarkIt_state: show_markIt};
     sendMessage(message);
   }
   else if (info.menuItemId == "MarkIt") {
-    var message = {greeting: "hello"}
+    var message = {ping: true};
     sendMessage(message);
   }
 };
