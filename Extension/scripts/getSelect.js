@@ -64,12 +64,6 @@ function save_codepage() {
   });
 }
 
-$("html").on("click", function () {
-  if (is_markIt_activate) {
-    save_codepage();
-  }
-});
-
 function addDiv(tag) {
   var title;
 
@@ -91,15 +85,16 @@ function getTag() {
     addDiv(tag);
   }
 }
-
+/*jslint unparam: true*/
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log(sender);
   if (request.ping) {
     getTag();
-    save_codepage();
     sendResponse({htmlcode: JSON.parse(localStorage.markIt)});
   } else if (request.MarkIt_state !== undefined) {
     this.is_markIt_activate = request.MarkIt_state;
     makingChangesWithMarkIt();
+  } else if (request.save) {
+    save_codepage();
   }
 });
+/*jslint unparam: false*/

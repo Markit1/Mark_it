@@ -7,12 +7,14 @@ var alert;
 var lastTabId;
 
 //Add mark_it icon in whatever page
-function active_markit_icon() {
+/*jslint unparam: true*/
+function active_markit_icon(tabId, changeInfo, tab) {
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     this.lastTabId = tabs[0].id;
     chrome.pageAction.show(lastTabId);
   });
 }
+/*jslint unparam: false*/
 
 //Changes icon when you add a markIt comemnt
 function createSetIconAction(path, callback) {
@@ -52,15 +54,19 @@ chrome.pageAction.onClicked.addListener(function () {
   alert(vhtml);
 });
 
-function ensureSendMessage(tabId) {
+/*jslint unparam: true*/
+function ensureSendMessage(tabId, message, callback) {
   chrome.tabs.sendMessage(tabId, {ping: true}, function (response) {
     vhtml = response.htmlcode.code_changed;
   });
 }
+/*jslint unparam: false*/
 
-function sendMarkItState(tabId, message) {
+/*jslint unparam: true*/
+function sendMarkItState(tabId, message, callback) {
   chrome.tabs.sendMessage(tabId, message);
 }
+/*jslint unparam: false*/
 
 function sendMessage(message) {
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
@@ -68,16 +74,23 @@ function sendMessage(message) {
   });
 }
 
-function genericOnClick(info) {
+/*jslint unparam: true*/
+function genericOnClick(info, tab) {
   var message;
   if (info.menuItemId === "enabled") {
     if (!show_markIt) {
-
-      var title = "Agregar MarkIt";
+      var title;
+      title = "Agregar MarkIt";
       chrome.contextMenus.create({
         "title" : title,
         "contexts" : contexts,
         "id" : "MarkIt"
+      });
+      title = "Guardar MarkIts";
+      chrome.contextMenus.create({
+        "title" : title,
+        "contexts" : contexts,
+        "id" : "Save"
       });
     } else {
       chrome.contextMenus.remove("MarkIt");
@@ -85,12 +98,14 @@ function genericOnClick(info) {
 
     this.show_markIt = this.show_markIt === false;
     message = {MarkIt_state: show_markIt};
-    sendMessage(message);
   } else if (info.menuItemId === "MarkIt") {
     message = {ping: true};
-    sendMessage(message);
+  } else if (info.menuItemId === "Save") {
+    message = {save: true};
   }
+  sendMessage(message);
 }
+/*jslint unparam: false*/
 
 chrome.runtime.onInstalled.addListener(function () {
   chrome.contextMenus.create({
