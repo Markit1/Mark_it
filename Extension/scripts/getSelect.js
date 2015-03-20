@@ -64,23 +64,29 @@ function save_codepage() {
   });
 }
 
-$("html").on("click", function () {
-  if (is_markIt_activate) {
-    save_codepage();
-  }
-});
+var global = "markit"
+var deletekit = "delete"
 
 function addDiv(tag) {
   var title;
 
   title = "comentario" + integer;
-
+ 
   integer++;
-  $(tag).append("<div contenteditable=" + true + " id=" + title + " class=" + "markit-div" + "></div>");
-  document.getElementById(title).setAttribute('ContentEditable', 'true');
+  $(tag).append("<div class=" + "markit-global" + " id=" + title + "><a href="+""+" contenteditable="+false+" class="+ "delete" +">X</a><div id=" + global + " contenteditable=" + true + " class=" + "markit-div" + "></div></div>");
+  document.getElementById(global).setAttribute('ContentEditable', 'true');
   $("#" + title).draggable();
-  $("#" + title).focus();
+  $(".markit-div").focus();
+
+   $(".delete").on('click', function(){
+    
+    var parenDiv = this.parentNode;
+    $(parenDiv).remove();
+
+  });
+
 }
+
 
 function getTag() {
   var tag;
@@ -91,15 +97,19 @@ function getTag() {
     addDiv(tag);
   }
 }
-
+  
+ 
+  
+/*jslint unparam: true*/
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log(sender);
   if (request.ping) {
     getTag();
-    save_codepage();
     sendResponse({htmlcode: JSON.parse(localStorage.markIt)});
   } else if (request.MarkIt_state !== undefined) {
     this.is_markIt_activate = request.MarkIt_state;
     makingChangesWithMarkIt();
+  } else if (request.save) {
+    save_codepage();
   }
 });
+/*jslint unparam: false*/
