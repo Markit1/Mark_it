@@ -10,11 +10,11 @@ var alert;
 //Add mark_it icon in whatever page
 var lastTabId = 0;
 function active_markit_icon(tabId, changeInfo, tab) {
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-  lastTabId = tabs[0].id;
-  chrome.pageAction.show(lastTabId);
+  chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+    lastTabId = tabs[0].id;
+    chrome.pageAction.show(lastTabId);
   });
-};
+}
 /*jslint unparam: false*/
 
 //Changes icon when you add a markIt comemnt
@@ -22,12 +22,14 @@ function createSetIconAction(path, callback) {
   var canvas = document.createElement("canvas");
   var ctx = canvas.getContext("2d");
   var image = new Image();
-  image.onload = function() {
-    ctx.drawImage(image,0,0,19,19);
-    var imageData = ctx.getImageData(0,0,19,19);
+
+  image.onload = function () {
+    ctx.drawImage(image, 0, 0, 19, 19);
+    var imageData = ctx.getImageData(0, 0, 19, 19);
     var action = new chrome.declarativeContent.SetIcon({imageData: imageData});
     callback(action);
-  }
+  };
+
   image.src = chrome.runtime.getURL(path);
 }
 
@@ -95,6 +97,7 @@ function genericOnClick(info, tab) {
       });
     } else {
       chrome.contextMenus.remove("MarkIt");
+      chrome.contextMenus.remove("Save");
     }
 
     this.show_markIt = this.show_markIt === false;
