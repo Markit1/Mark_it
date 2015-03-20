@@ -4,18 +4,18 @@ var show_markIt = false;
 var chrome;
 var Image;
 var alert;
-var lastTabId=0;
 
-//Add mark_it icon in whatever page
+
 /*jslint unparam: true*/
+//Add mark_it icon in whatever page
+var lastTabId = 0;
 function active_markit_icon(tabId, changeInfo, tab) {
-  chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-    this.lastTabId = tabs[0].id;
-    chrome.pageAction.show(lastTabId);
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  lastTabId = tabs[0].id;
+  chrome.pageAction.show(lastTabId);
   });
-}
+};
 /*jslint unparam: false*/
-
 
 //Changes icon when you add a markIt comemnt
 function createSetIconAction(path, callback) {
@@ -27,7 +27,7 @@ function createSetIconAction(path, callback) {
     var imageData = ctx.getImageData(0,0,19,19);
     var action = new chrome.declarativeContent.SetIcon({imageData: imageData});
     callback(action);
-  };
+  }
   image.src = chrome.runtime.getURL(path);
 }
 
