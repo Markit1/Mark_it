@@ -40,6 +40,14 @@ function makingChangesWithMarkIt() {
   }
 }
 
+function deleteMarkIt() {
+  $(".delete").on('click', function () {
+    var parenDiv;
+    parenDiv = this.parentNode;
+    $(parenDiv).remove();
+  });
+}
+
 function knowIfMarkItIsActive(port) {
   port.postMessage({question: "Is MarkIt active?"});
   port.onMessage.addListener(function (msg) {
@@ -49,12 +57,13 @@ function knowIfMarkItIsActive(port) {
       this.is_markIt_activate = false;
     }
     makingChangesWithMarkIt();
+    deleteMarkIt();
   });
 }
 
 knowIfMarkItIsActive(port);
 
-function save_codepage() {
+function saveCodePage() {
   this.htmlcode_changed = document.getElementsByTagName('html')[0].innerHTML;
   localStorage.markIt = JSON.stringify({
     url: URL,
@@ -65,26 +74,16 @@ function save_codepage() {
 }
 
 
-var global = "markit"
-var deletekit = "delete"
-
+var global = "markit";
 
 function addDiv(tag) {
   var title;
   title = "comentario" + integer;
   integer++;
-  $(tag).append("<div class=" + "markit-global" + " id=" + title + "><a href="+""+" contenteditable="+false+" class="+ "delete" +">X</a><div id=" + global + " contenteditable=" + true + " class=" + "markit-div" + "></div></div>");
+  $(tag).append("<div class=" + "markit-global" + " id=" + title + "><button contenteditable=" + false + " class=" + '"delete"' + ">X</button><div id=" + global + " contenteditable=" + true + " class=" + "markit-div" + "></div></div>");
   document.getElementById(global).setAttribute('ContentEditable', 'true');
   $("#" + title).draggable();
   $(".markit-div").focus();
-
-   $(".delete").on('click', function(){
-
-    var parenDiv = this.parentNode;
-    $(parenDiv).remove();
-
-  });
-
 }
 
 
@@ -101,12 +100,13 @@ function getTag() {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.ping) {
     getTag();
-    sendResponse({htmlcode: JSON.parse(localStorage.markIt)});
+    deleteMarkIt();
   } else if (request.MarkIt_state !== undefined) {
     this.is_markIt_activate = request.MarkIt_state;
     makingChangesWithMarkIt();
+    deleteMarkIt();
   } else if (request.save) {
-    save_codepage();
+    saveCodePage();
   }
 });
 /*jslint unparam: false*/
