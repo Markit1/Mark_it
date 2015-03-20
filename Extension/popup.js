@@ -21,10 +21,9 @@ $(document).ready(function(){
     $( "input[id=share], a, button" )
       .button()
       .click(function( event ) {
-        //var name = value = $("#txt_name").attr('value');
-        alert(content);
-       //chrome.tabs.executeScript( null, {code:"alert(content);"}
-       //,function(results){ alert("hola"); }
-       //);
+        //alert(content);
+       chrome.tabs.executeScript( null, {code:"location.href = 'http://www.google.com'"}
+       ,function(results){}
+       );
       });
   });

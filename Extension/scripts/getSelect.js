@@ -73,7 +73,6 @@ function saveCodePage() {
   });
 }
 
-
 var global = "markit";
 
 function addDiv(tag) {
