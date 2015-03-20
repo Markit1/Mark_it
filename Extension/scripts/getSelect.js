@@ -64,14 +64,14 @@ function save_codepage() {
   });
 }
 
+
 var global = "markit"
 var deletekit = "delete"
 
+
 function addDiv(tag) {
   var title;
-
   title = "comentario" + integer;
- 
   integer++;
   $(tag).append("<div class=" + "markit-global" + " id=" + title + "><a href="+""+" contenteditable="+false+" class="+ "delete" +">X</a><div id=" + global + " contenteditable=" + true + " class=" + "markit-div" + "></div></div>");
   document.getElementById(global).setAttribute('ContentEditable', 'true');
@@ -79,7 +79,7 @@ function addDiv(tag) {
   $(".markit-div").focus();
 
    $(".delete").on('click', function(){
-    
+
     var parenDiv = this.parentNode;
     $(parenDiv).remove();
 
@@ -97,9 +97,6 @@ function getTag() {
     addDiv(tag);
   }
 }
-  
- 
-  
 /*jslint unparam: true*/
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.ping) {
