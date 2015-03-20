@@ -1,15 +1,49 @@
 
-.markit-div
-{
+.markit-div {
 	background: #FFC107;
 	color: black;
 	display: inline-block;
 	font-size: 15px;
 	height: 100px;
-	margin: 5px;
+	margin: 15px;
 	opacity: .80;
 	overflow: auto;
 	padding: 10px;
-	position: absolute;
+	position: relative;
 	width: 200px;
+	z-index: 1; 
+}
+
+.markit-global {
+	position: absolute;
+}
+
+.delete {
+	bottom: 10;
+	color: #212121;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 14px;
+	font-weight: bold;
+	margin-top: 0;
+	padding-top: 0;  
+	padding-left: 2px;
+	padding-right: 2px;
+	position: absolute;
+	text-decoration:none;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+
+.delete:link {
+	color: #212121;
+}
+
+.delete:visited {
+	color: #212121;
+}
+
+.delete:hover {
+	color: #212121;
 }
