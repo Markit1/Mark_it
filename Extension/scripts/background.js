@@ -4,11 +4,10 @@ var show_markIt = false;
 var chrome;
 var Image;
 var alert;
-
-
-/*jslint unparam: true*/
-//Add mark_it icon in whatever page
 var lastTabId = 0;
+
+//Add mark_it icon in whatever page
+/*jslint unparam: true*/
 function active_markit_icon(tabId, changeInfo, tab) {
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     lastTabId = tabs[0].id;
