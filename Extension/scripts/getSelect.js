@@ -79,7 +79,7 @@ function addDiv(tag) {
   var title;
   title = "comentario" + integer;
   integer++;
-  $(tag).append("<div class=" + "markit-global" + " id=" + title + "><button contenteditable=" + false + " class=" + '"delete"' + ">X</button><div id=" + global + " contenteditable=" + true + " class=" + "markit-div" + "></div></div>");
+  $(tag).append("<div class=" + "markit-global" + " id=" + title + " spellcheck='false'><a contenteditable=" + false + " class=" + '"delete"' + ">x</a><div id=" + global + " contenteditable=" + true + " class=" + "markit-div" + "></div></div>");
   document.getElementById(global).setAttribute('ContentEditable', 'true');
   $("#" + title).draggable();
   $(".markit-div").focus();
